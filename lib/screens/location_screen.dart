@@ -55,7 +55,9 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      updateUI(await WeatherModel().getLocationWeatherData());
+                    },
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
