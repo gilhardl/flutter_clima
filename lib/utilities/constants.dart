@@ -18,3 +18,6 @@ const kButtonTextStyle = TextStyle(
 const kConditionTextStyle = TextStyle(
   fontSize: 100.0,
 );
+
+const kOpenWeatherMapApiUrl = 'https://api.openweathermap.org/data/2.5/';
+const kOpenWeatherMapApiKey = '2e93615302d3669b6abb50a072f89556';
