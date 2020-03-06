@@ -1,3 +1,4 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,14 @@ class _LocationScreenState extends State<LocationScreen> {
 
   void updateUI(dynamic weatherData) {
     setState(() {
-      city = weatherData['name'];
+      if (weatherData == null) {
+        temperature = null;
+        city = '';
+        conditionIcon = '';
+        conditionMessage = 'Error while fetching weather for your location...';
+        return;
+      }
+      city = 'in ${weatherData['name']}';
       int condition = weatherData['weather'][0]['id'];
       temperature = weatherData['main']['temp'].toInt();
       conditionIcon = WeatherModel().getWeatherIcon(condition);
@@ -64,7 +72,18 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      String cityName = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CityScreen(),
+                        ),
+                      );
+                      if (cityName != null) {
+                        updateUI(
+                            await WeatherModel().getCityWeatherData(cityName));
+                      }
+                    },
                     child: Icon(
                       Icons.location_city,
                       size: 50.0,
@@ -77,7 +96,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '$temperature°C',
+                      temperature != null ? '$temperature°C' : '',
                       style: kTempTextStyle,
                     ),
                     Text(
@@ -90,7 +109,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  '$conditionMessage in $city!',
+                  '$conditionMessage $city',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
