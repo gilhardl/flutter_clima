@@ -27,9 +27,9 @@ class _LocationScreenState extends State<LocationScreen> {
     setState(() {
       city = weatherData['name'];
       int condition = weatherData['weather'][0]['id'];
-      conditionIcon = WeatherModel().getWeatherIcon(condition);
-      conditionMessage = WeatherModel().getMessage(condition);
       temperature = weatherData['main']['temp'].toInt();
+      conditionIcon = WeatherModel().getWeatherIcon(condition);
+      conditionMessage = WeatherModel().getMessage(temperature);
     });
   }
 
