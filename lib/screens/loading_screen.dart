@@ -1,7 +1,5 @@
 import 'package:clima/screens/location_screen.dart';
-import 'package:clima/services/location.dart';
-import 'package:clima/services/networking.dart';
-import 'package:clima/utilities/constants.dart';
+import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -18,14 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocationData() async {
-    Location location = Location();
-    await location.getCurrentLocation();
-
-    NetworkingHelper networkingHelper = NetworkingHelper(
-        url:
-            '${kOpenWeatherMapApiUrl}weather?lat=${location.latitude}&lon=${location.longitude}&units=metric&appid=$kOpenWeatherMapApiKey');
-
-    var weatherData = await networkingHelper.getData();
+    var weatherData = await WeatherModel().getLocationWeatherData();
 
     Navigator.push(
         context,
